@@ -1,0 +1,18 @@
+{
+  "title": "SERTIFIKAT KEPEMILIKAN DIGITAL — MULTI DOMAIN",
+  "owner": "JK ADISTORE",
+  "ownerEmail": "jk********@gmail.com",
+  "contact": "08xx****xxx",
+  "site": "https://jkadistore.shop",
+  "sites": [
+    "https://jkadistore.shop",
+    "https://app.jkadistore.shop",
+    "https://ai.jkadistore.shop"
+  ],
+  "issued": "2026-09-04",
+  "algorithm": "RSA-2048 / PKCS1v15-SHA256",
+  "fingerprint": "5A:3D:34:B1:A0:E2:5E:37:43:5B:F1:36:89:99:73:3F:B0:2A:00:EA:A2:46:B2:0C:5B:F7:59:C9:0C:3E:B0:A8",
+  "message": "SERTIFIKAT KEPEMILIKAN DIGITAL — JK ADISTORE (MULTI-DOMAIN)\nDomain  : https://jkadistore.shop (beranda utama)\n          https://app.jkadistore.shop (unggah foto → URL permanen)\n          https://ai.jkadistore.shop (AI asisten)\nOwner   : JK ADISTORE (jkadistore2@gmail.com)\nKontak  : 08991232005\nHak     : Akses Penuh Mutlak (OWNER PENUH) di seluruh domain\nStandar : RSA-2048 / PKCS#1 v1.5 + SHA-256 (PKCS1v15-SHA256)\nDiterbitkan : 2026-09-04\nSatu sumber kunci resmi: kunci publik dipasang di semua domain di atas,\nkunci privat hanya dipegang pemilik dan tidak pernah di-deploy.",
+  "signature": "j9lpzyRwWZaxSl0mh9F6Ffa2dYUaJ7435VW5vJ8W/d+X6+gR0f0J16cgaTTdNgO0u/GE/HliwaoDAH6MDhFlKIZW8v9T1ZkEWdaBu3WSHE/fmygW5xSjJgsV2/d7sPl0pZEMsNBu4j1OnEbJP0d8QpbzKMlUhcs7FbPOsO4/fh8w7lOyIyFnbwSdRlQEyq4Ls5DxAxNkc++HmD1IA4Nr2d+sdkr1ahnYcvP6ootpjrLTrXjIHzf+muyYCVde4BytJbJIvd9K+c1mMbU7tWXz28VCy999hTRtok0/BmBJJIWtU8AIHF2zLP1aYJNyO14yM1ufB8JifpQAfYNjGog9hg==",
+  "contactFull": "disamarkan — hubungi via tombol WhatsApp resmi di halaman Kontak"
+}

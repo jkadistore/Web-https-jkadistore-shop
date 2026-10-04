@@ -1,0 +1,166 @@
+/* ==================================================================
+   JK ADISTORE — TOP UP FLOW v1.0 (2026-09-25)
+   Halaman flow top-up & checkout gaya tokogame — branding JK ADISTORE.
+   Warna mengikuti variabel toko (--c1 --c2 --c3) = identitas JK.
+   ================================================================== */
+
+/* ---------- overlay halaman ---------- */
+#jkaTpOv{position:fixed;inset:0;z-index:600;background:#04061a;overflow-y:auto;overflow-x:hidden;display:none;-webkit-overflow-scrolling:touch}
+#jkaTpOv.show{display:block;animation:tpFade .25s ease}
+@keyframes tpFade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+#jkaTpOv:before{content:'';position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:radial-gradient(circle at 15% 10%,color-mix(in srgb,var(--c1) 20%,transparent),transparent 42%),radial-gradient(circle at 85% 20%,color-mix(in srgb,var(--c3) 14%,transparent),transparent 42%),radial-gradient(circle at 50% 100%,color-mix(in srgb,var(--c2) 22%,transparent),transparent 58%)}
+
+/* ---------- topbar ---------- */
+.tp-bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(4,6,26,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--stroke)}
+.tp-back{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:7px 13px;border-radius:12px;border:1px solid var(--stroke);background:rgba(255,255,255,.07);color:#fff;font-weight:800;font-size:13px;cursor:pointer;transition:.2s}
+.tp-back:hover{background:rgba(255,255,255,.14);border-color:color-mix(in srgb,var(--c3) 35%,var(--stroke))}
+.tp-barname{font-weight:900;font-size:14px;letter-spacing:.4px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tp-barname small{display:block;font-weight:600;font-size:10px;opacity:.65;letter-spacing:1.5px}
+.tp-barpill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;padding:5px 9px;border-radius:99px;border:1px solid color-mix(in srgb,var(--c2) 45%,var(--stroke));background:color-mix(in srgb,var(--c2) 14%,transparent);color:#fff;white-space:nowrap}
+
+/* ---------- wrap ---------- */
+.tp-wrap{max-width:780px;margin:0 auto;padding:16px 14px 90px;display:flex;flex-direction:column;gap:14px}
+
+/* ---------- header produk ---------- */
+.tp-head{display:flex;gap:14px;align-items:center;padding:16px;border-radius:20px;border:1px solid var(--stroke);background:linear-gradient(145deg,rgba(255,255,255,.075),rgba(255,255,255,.03));box-shadow:0 10px 34px rgba(0,0,0,.35)}
+.tp-logo{width:84px;height:84px;border-radius:20px;object-fit:cover;background:#141b3f;border:1px solid var(--stroke);flex:none;box-shadow:0 8px 22px color-mix(in srgb,var(--c2) 30%,transparent)}
+.tp-logo-fb{width:84px;height:84px;border-radius:20px;flex:none;display:none;align-items:center;justify-content:center;font-size:40px;border:1px solid var(--stroke);background:linear-gradient(140deg,color-mix(in srgb,var(--c1) 40%,#0a1030),color-mix(in srgb,var(--c3) 35%,#0a1030))}
+.tp-hmain{min-width:0;flex:1}
+.tp-hname{font-size:19px;font-weight:900;line-height:1.25;margin:0 0 7px}
+.tp-badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tp-pill{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;padding:4px 10px;border-radius:99px;border:1px solid var(--stroke);background:rgba(255,255,255,.06);white-space:nowrap}
+.tp-pill.fast{border-color:color-mix(in srgb,var(--ok) 45%,var(--stroke));background:color-mix(in srgb,var(--ok) 12%,transparent)}
+.tp-pill.rate{border-color:color-mix(in srgb,#ffd166 45%,var(--stroke));background:rgba(255,209,102,.1)}
+.tp-from{font-size:13px;color:#aeb9e8}
+.tp-from b{font-size:17px;color:#fff;font-weight:900}
+
+/* ---------- kartu section ---------- */
+.tp-card{border:1px solid var(--stroke);border-radius:20px;background:rgba(10,14,40,.6);backdrop-filter:blur(8px);padding:16px;box-shadow:0 8px 26px rgba(0,0,0,.28)}
+.tp-shead{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.tp-snum{width:30px;height:30px;flex:none;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 5px 16px color-mix(in srgb,var(--c1) 40%,transparent)}
+.tp-stitle{font-size:15.5px;font-weight:900;letter-spacing:.2px}
+.tp-ssub{font-size:11.5px;color:#aeb9e8;margin:2px 0 0}
+.tp-locknote{margin-top:12px;display:flex;gap:8px;align-items:center;font-size:12px;color:#ffd7a1;background:rgba(255,209,102,.09);border:1px dashed color-mix(in srgb,#ffd166 40%,transparent);border-radius:12px;padding:9px 12px}
+.tp-done{margin-top:12px;display:none;gap:8px;align-items:center;font-size:12px;font-weight:700;color:#c9ffe2;background:color-mix(in srgb,var(--ok) 12%,transparent);border:1px solid color-mix(in srgb,var(--ok) 40%,transparent);border-radius:12px;padding:9px 12px}
+
+/* ---------- input ID ---------- */
+.tp-frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tp-frow.one{grid-template-columns:1fr}
+.tp-f{min-width:0}
+.tp-f label{display:block;font-size:11.5px;font-weight:800;letter-spacing:.4px;color:#c6cffb;margin:0 0 6px 2px}
+.tp-f .input{width:100%;font-size:15px;letter-spacing:.5px}
+.tp-f .input::placeholder{letter-spacing:0;font-size:12.5px}
+.tp-hint{font-size:10.5px;color:#8d97c4;margin:5px 0 0 3px}
+.tp-checkbtn{margin-top:14px;width:100%}
+.tp-cekrow{display:flex;gap:8px;align-items:stretch}
+.tp-cekrow .input{flex:1}
+.tp-cekrow .btn{flex:none}
+.input.tp-invalid{border-color:rgba(255,109,138,.65);box-shadow:0 0 0 3px rgba(255,109,138,.14)}
+.input.tp-valid{border-color:color-mix(in srgb,var(--ok) 55%,var(--stroke));box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 16%,transparent)}
+
+/* hasil nickname */
+.tp-nick{margin-top:13px;border-radius:14px;padding:11px 13px;font-size:13px;line-height:1.5;display:none;align-items:flex-start;gap:9px;border:1px solid var(--stroke);background:rgba(255,255,255,.05)}
+.tp-nick.show{display:flex;animation:tpFade .2s ease}
+.tp-nick .tp-nickic{font-size:16px;line-height:1.2;flex:none}
+.tp-nick b{font-size:14.5px}
+.tp-nick.ok{border-color:color-mix(in srgb,var(--ok) 50%,transparent);background:color-mix(in srgb,var(--ok) 11%,transparent);color:#eafff4}
+.tp-nick.err{border-color:rgba(255,109,138,.5);background:rgba(255,109,138,.1);color:#ffd9e2}
+.tp-nick.warn{border-color:rgba(255,209,102,.5);background:rgba(255,209,102,.1);color:#ffedc2}
+.tp-nick.busy{color:#c6cffb}
+.tp-nick small{display:block;font-size:11px;opacity:.8;margin-top:2px}
+.tp-skipbtn{margin-top:8px;font-size:11.5px}
+.tp-shake{animation:tpShake .4s}
+@keyframes tpShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+
+/* ---------- grup paket collapsible ---------- */
+.tp-groups{display:flex;flex-direction:column;gap:10px}
+.tp-g{border:1px solid var(--stroke);border-radius:16px;background:rgba(255,255,255,.04);overflow:hidden;transition:.22s}
+.tp-g.open{border-color:color-mix(in srgb,var(--c2) 35%,var(--stroke));background:rgba(255,255,255,.06)}
+.tp-ghead{width:100%;display:flex;align-items:center;gap:10px;padding:13px 14px;background:transparent;border:0;color:#fff;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;text-align:left;min-height:48px}
+.tp-ghead:hover{background:rgba(255,255,255,.05)}
+.tp-gic{font-size:17px;flex:none}
+.tp-gname{flex:1;min-width:0}
+.tp-gname small{display:block;font-size:10.5px;font-weight:600;color:#9aa5d6;margin-top:1px}
+.tp-gcount{font-size:10.5px;font-weight:800;color:#c6cffb;background:rgba(255,255,255,.08);border:1px solid var(--stroke);padding:3px 9px;border-radius:99px;white-space:nowrap}
+.tp-gchev{transition:.25s;font-size:12px;opacity:.75}
+.tp-g.open .tp-gchev{transform:rotate(180deg)}
+.tp-gbody{display:none;padding:4px 12px 12px}
+.tp-g.open .tp-gbody{display:block;animation:tpFade .22s ease}
+
+/* grid paket 2 kolom kecil→besar */
+.tp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media (max-width:430px){.tp-grid{gap:7px}}
+.tp-pkg{position:relative;display:flex;flex-direction:column;gap:3px;align-items:flex-start;padding:11px 12px;border-radius:13px;border:1.5px solid var(--stroke);background:rgba(255,255,255,.05);color:#fff;font-family:inherit;cursor:pointer;text-align:left;transition:.18s;min-height:58px}
+.tp-pkg:hover{border-color:color-mix(in srgb,var(--c2) 45%,var(--stroke));background:rgba(255,255,255,.09);transform:translateY(-1px)}
+.tp-pkg.active{border-color:var(--c2);background:color-mix(in srgb,var(--c2) 14%,transparent);box-shadow:0 0 0 3px color-mix(in srgb,var(--c2) 18%,transparent),0 8px 22px color-mix(in srgb,var(--c2) 25%,transparent)}
+.tp-pkg-name{font-size:12.5px;font-weight:800;line-height:1.25}
+.tp-pkg-price{font-size:13.5px;font-weight:900;color:#fff}
+.tp-pkg.active .tp-pkg-price{color:color-mix(in srgb,var(--c3) 55%,#fff)}
+.tp-pkg-hot{position:absolute;top:-7px;right:8px;font-size:8.5px;font-weight:900;letter-spacing:.5px;padding:2px 7px;border-radius:99px;background:linear-gradient(120deg,#ff4d6d,#ff00bb);color:#fff;box-shadow:0 3px 10px rgba(255,77,109,.45)}
+.tp-pkg .tp-check{position:absolute;top:7px;right:9px;width:20px;height:20px;border-radius:99px;display:none;align-items:center;justify-content:center;font-size:11px;font-weight:900;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;box-shadow:0 3px 10px color-mix(in srgb,var(--c1) 50%,transparent)}
+.tp-pkg.active .tp-check{display:inline-flex}
+.tp-pkg .tp-pkg-name{padding-right:22px}
+
+/* ---------- diskon ---------- */
+.tp-discrow{display:flex;gap:8px;margin-bottom:14px}
+.tp-discrow .input{flex:1;text-transform:uppercase;letter-spacing:1px;font-size:13px}
+.tp-discrow .btn{flex:none}
+.tp-disc-ok{display:none;align-items:center;gap:8px;margin:-5px 0 14px;font-size:12.5px;font-weight:800;color:#c9ffe2;background:color-mix(in srgb,var(--ok) 12%,transparent);border:1px solid color-mix(in srgb,var(--ok) 40%,transparent);border-radius:12px;padding:9px 12px}
+.tp-disc-ok.show{display:flex}
+.tp-disc-ok button{margin-left:auto}
+
+/* ---------- metode pembayaran ---------- */
+.tp-payg{display:flex;flex-direction:column;gap:10px}
+.tp-pg{border:1px solid var(--stroke);border-radius:16px;background:rgba(255,255,255,.04);overflow:hidden}
+.tp-pghead{display:flex;align-items:center;gap:9px;padding:11px 14px;font-size:13px;font-weight:900;border-bottom:1px solid var(--stroke);background:rgba(255,255,255,.04)}
+.tp-pghead .tp-pgmin{margin-left:auto;font-size:10px;font-weight:800;color:#ffd7a1;background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3);padding:2px 8px;border-radius:99px;white-space:nowrap}
+.tp-pms{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:8px;padding:12px}
+.tp-pm{position:relative;display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:13px;border:1.5px solid var(--stroke);background:rgba(255,255,255,.05);color:#fff;font-family:inherit;cursor:pointer;text-align:left;transition:.18s;min-height:48px}
+.tp-pm:hover{border-color:color-mix(in srgb,var(--c2) 45%,var(--stroke));transform:translateY(-1px)}
+.tp-pm.active{border-color:var(--c2);background:color-mix(in srgb,var(--c2) 13%,transparent);box-shadow:0 0 0 3px color-mix(in srgb,var(--c2) 16%,transparent)}
+.tp-pm.disabled{opacity:.38;cursor:not-allowed;filter:grayscale(.6)}
+.tp-pm.disabled:hover{transform:none;border-color:var(--stroke)}
+.tp-pmlogo{width:38px;height:26px;flex:none;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:900;letter-spacing:.3px;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.35);white-space:nowrap;overflow:hidden}
+.tp-pmlogo.dark{color:#1c1f2e}
+.tp-pmname{font-size:12.5px;font-weight:800;line-height:1.2;min-width:0}
+.tp-pmname small{display:block;font-size:9.5px;font-weight:600;color:#9aa5d6;margin-top:1px}
+.tp-pm .tp-check{position:absolute;top:-7px;right:-6px;width:20px;height:20px;border-radius:99px;display:none;align-items:center;justify-content:center;font-size:11px;font-weight:900;background:linear-gradient(135deg,var(--c1),var(--c2));color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.4)}
+.tp-pm.active .tp-check{display:inline-flex}
+.tp-qris-hot{font-size:8.5px;font-weight:900;letter-spacing:.4px;color:#fff;background:linear-gradient(120deg,#ff4d6d,#ff00bb);padding:2px 6px;border-radius:99px;margin-left:2px}
+
+/* ---------- ringkasan & beli ---------- */
+.tp-wrow{display:flex;gap:8px;align-items:stretch}
+.tp-wrow .input{flex:1}
+.tp-sum{margin-top:14px;border:1px dashed var(--stroke);border-radius:16px;padding:14px;background:rgba(255,255,255,.035)}
+.tp-sumrow{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;padding:4.5px 0;color:#c6cffb}
+.tp-sumrow b{color:#fff;text-align:right;font-weight:800;max-width:62%;overflow-wrap:anywhere}
+.tp-sumrow.total{margin-top:8px;padding-top:11px;border-top:1px solid var(--stroke);font-size:14.5px;color:#fff;font-weight:900}
+.tp-sumrow.total b{font-size:19px;font-weight:900;color:color-mix(in srgb,var(--c3) 45%,#fff);text-shadow:0 0 18px color-mix(in srgb,var(--c2) 35%,transparent)}
+.tp-sumrow.disc b{color:#c9ffe2}
+.tp-buyrow{display:flex;gap:10px;margin-top:14px}
+.tp-buy{flex:1;font-size:15.5px;padding:14px 18px;min-height:52px}
+.tp-buy:disabled{opacity:.45;cursor:not-allowed;transform:none!important;filter:saturate(.4)}
+.tp-note{margin-top:10px;font-size:10.5px;color:#8d97c4;text-align:center;line-height:1.6}
+
+/* ---------- sticky mobile bar ---------- */
+.tp-mbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:none;gap:10px;align-items:center;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(4,6,26,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--stroke)}
+@media (max-width:620px){.tp-mbar.on{display:flex}}
+.tp-mtotal{line-height:1.2}
+.tp-mtotal small{display:block;font-size:10px;color:#9aa5d6;font-weight:700}
+.tp-mtotal b{font-size:16.5px;font-weight:900;color:#fff}
+.tp-mbar .tp-buy{flex:1;min-height:46px;font-size:14px;padding:10px 14px}
+
+/* ---------- responsive ---------- */
+@media (max-width:560px){
+  .tp-frow{grid-template-columns:1fr 1fr}
+  .tp-head{padding:13px;gap:11px}
+  .tp-logo,.tp-logo-fb{width:66px;height:66px;border-radius:16px}
+  .tp-hname{font-size:16.5px}
+  .tp-hmain{min-width:0}
+  .tp-card{padding:13px;border-radius:17px}
+  .tp-pms{grid-template-columns:repeat(auto-fill,minmax(138px,1fr))}
+}
+@media (max-width:380px){
+  .tp-frow{grid-template-columns:1fr}
+  .tp-barpill{display:none}
+}

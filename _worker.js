@@ -1,0 +1,229 @@
+// JK ADISTORE — Worker Full
+const ORIGIN = 'https://25bd5ade.jkadistore.pages.dev';
+const OWNER_HASH = '40cab8d2722924df61b8b2dc8f149d680305071a8e98d820d5c598622e2bd506';
+const OWNER_EMAIL = 'jkadistore2@gmail.com';
+
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
+  });
+}
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str || ''));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function sendEmail(env, to, subject, html) {
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + env.RESEND_API_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: 'JK AdiStore <noreply@jkadistore.shop>', to: [to], subject, html })
+  });
+  return r.ok;
+}
+
+function otpHtml(title, sub, code) {
+  return '<!DOCTYPE html><html><body style="font-family:system-ui,Arial;background:#f5f5f7;padding:20px;margin:0"><div style="max-width:520px;margin:auto;background:#fff;border-radius:16px;overflow:hidden"><div style="background:linear-gradient(135deg,#7c3aed,#a855f7,#ec4899);padding:24px;color:#fff;text-align:center"><h1 style="margin:0;font-size:20px">' + title + '</h1><p style="margin:6px 0 0;opacity:.9;font-size:12px">JK AdiStore</p></div><div style="padding:28px;text-align:center"><p style="color:#666">' + sub + '</p><div style="font-size:38px;font-weight:900;letter-spacing:10px;color:#7c3aed;background:#f8f5ff;padding:18px;border-radius:12px;border:2px dashed #7c3aed">' + code + '</div><p style="color:#999;font-size:12px;margin-top:14px">Berlaku 5 menit</p></div></div></body></html>';
+}
+
+async function handleOtpSend(request, env) {
+  try {
+    const { email, password } = await request.json();
+    const input = String(email || '').toLowerCase().trim();
+    const db = env.DB_MAIN || env.DB_AI || env.DB_FOTO;
+    if (!db) return json({ success: false, error: 'DB error' }, 500);
+
+    const hex = await sha256(password);
+
+    if (input === OWNER_EMAIL) {
+      // [TEMP] Plaintext — paksa works
+      if (password !== 'JkOwner2026Xyz') return json({ success: false, error: 'Password salah' }, 401);
+    } else {
+      const row = await db.prepare('SELECT * FROM pengguna WHERE email = ?').bind(input).first();
+      if (!row) return json({ success: false, error: 'Email tidak terdaftar' }, 404);
+      if (row.kata_sandi !== hex) return json({ success: false, error: 'Password salah' }, 401);
+      if (!row.status_aktif) return json({ success: false, error: 'Akun belum diverifikasi. Cek email.' }, 403);
+    }
+
+    const code = String(Math.floor(100000 + Math.random() * 900000));
+    const exp = Math.floor(Date.now() / 1000) + 300;
+    await db.prepare('INSERT INTO otp_codes (email, code, expires, attempts, created_at) VALUES (?, ?, ?, 0, ?) ON CONFLICT(email) DO UPDATE SET code=?, expires=?, attempts=0').bind(input, code, exp, Math.floor(Date.now()/1000), code, exp).run();
+
+    const ok = await sendEmail(env, input, 'Kode Login JK AdiStore: ' + code, otpHtml('Kode Verifikasi Login', 'Masukkan kode berikut:', code));
+    if (!ok) return json({ success: false, error: 'Gagal kirim OTP' }, 500);
+
+    return json({ success: true, message: 'Kode terkirim', otp_required: true, email: input });
+  } catch (e) { return json({ success: false, error: e.message }, 500); }
+}
+
+async function handleOtpVerify(request, env) {
+  try {
+    const { email, code } = await request.json();
+    const input = String(email || '').toLowerCase().trim();
+    const db = env.DB_MAIN || env.DB_AI || env.DB_FOTO;
+    if (!db) return json({ success: false, error: 'DB error' }, 500);
+
+    const row = await db.prepare('SELECT * FROM otp_codes WHERE email = ?').bind(input).first();
+    if (!row) return json({ success: false, error: 'Kode tidak ditemukan' }, 404);
+    const now = Math.floor(Date.now() / 1000);
+    if (now > row.expires) { await db.prepare('DELETE FROM otp_codes WHERE email=?').bind(input).run(); return json({ success: false, error: 'Kode kadaluarsa' }, 400); }
+    if (row.attempts >= 5) { await db.prepare('DELETE FROM otp_codes WHERE email=?').bind(input).run(); return json({ success: false, error: 'Terlalu banyak percobaan' }, 429); }
+    if (String(row.code) !== String(code).trim()) {
+      await db.prepare('UPDATE otp_codes SET attempts=attempts+1 WHERE email=?').bind(input).run();
+      return json({ success: false, error: 'Kode salah' }, 401);
+    }
+    await db.prepare('DELETE FROM otp_codes WHERE email=?').bind(input).run();
+
+    let userData = { email: input, role: 'user' };
+    if (input === OWNER_EMAIL) {
+      userData = { id: 'owner', email: input, name: 'Owner', role: 'owner' };
+    } else {
+      await db.prepare('UPDATE pengguna SET status_aktif=1, terakhir_login=? WHERE email=?').bind(new Date().toISOString(), input).run();
+      const u = await db.prepare('SELECT * FROM pengguna WHERE email=?').bind(input).first();
+      if (u) userData = { id: u.id, email: u.email, name: u.nama, role: u.peran || 'user', coins: u.saldo_koin || 0 };
+    }
+    try { await db.prepare('INSERT INTO log_login (id, id_pengguna, email, metode, waktu) VALUES (?, ?, ?, ?, ?)').bind('L-'+Date.now().toString(36), userData.id || '', input, 'otp', new Date().toISOString()).run(); } catch(e){}
+
+    const token = (userData.role === 'owner' ? 'JK2FA_' : 'JKUSR_') + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 12);
+    return json({ success: true, token, user: userData, message: 'Verifikasi berhasil' });
+  } catch (e) { return json({ success: false, error: e.message }, 500); }
+}
+
+async function handleRegister(request, env) {
+  try {
+    const { name, email, wa, password, next } = await request.json();
+    const input = String(email || '').toLowerCase().trim();
+    const db = env.DB_MAIN || env.DB_AI || env.DB_FOTO;
+    if (!db) return json({ success: false, error: 'DB error' }, 500);
+
+    if (!name || name.length < 2) return json({ success: false, error: 'Nama minimal 2 karakter' }, 400);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input)) return json({ success: false, error: 'Format email tidak valid' }, 400);
+    if (!password || password.length < 6) return json({ success: false, error: 'Password minimal 6 karakter' }, 400);
+    if (input === OWNER_EMAIL) return json({ success: false, error: 'Email tidak boleh digunakan' }, 400);
+
+    const hash = await sha256(password);
+    const existing = await db.prepare('SELECT id, status_aktif FROM pengguna WHERE email = ?').bind(input).first();
+
+    if (existing) {
+      if (existing.status_aktif) return json({ success: false, error: 'Email sudah terdaftar' }, 400);
+      await db.prepare('UPDATE pengguna SET kata_sandi=?, nama=? WHERE email=?').bind(hash, name, input).run();
+    } else {
+      const uid = 'U-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+      await db.prepare('INSERT INTO pengguna (id, email, kata_sandi, peran, nama, saldo_koin, tanggal_daftar, status_aktif) VALUES (?, ?, ?, ?, ?, 0, ?, 0)').bind(uid, input, hash, 'user', name, new Date().toISOString()).run();
+    }
+
+    const code = String(Math.floor(100000 + Math.random() * 900000));
+    const exp = Math.floor(Date.now() / 1000) + 300;
+    await db.prepare('INSERT INTO otp_codes (email, code, expires, attempts, created_at) VALUES (?, ?, ?, 0, ?) ON CONFLICT(email) DO UPDATE SET code=?, expires=?, attempts=0').bind(input, code, exp, Math.floor(Date.now()/1000), code, exp).run();
+
+    const ok = await sendEmail(env, input, 'Verifikasi Akun JK AdiStore: ' + code, otpHtml('Verifikasi Akun Baru', 'Hai <b>' + name + '</b>, masukkan kode untuk aktivasi akun:', code));
+    if (!ok) return json({ success: false, error: 'Gagal kirim email' }, 500);
+
+    return json({ success: true, otp_required: true, email: input, action: 'register', next: next || '/' });
+  } catch (e) { return json({ success: false, error: e.message }, 500); }
+}
+
+async function handleForgot(request, env) {
+  try {
+    const { email } = await request.json();
+    const input = String(email || '').toLowerCase().trim();
+    const db = env.DB_MAIN || env.DB_AI || env.DB_FOTO;
+    if (!db) return json({ success: false, error: 'DB error' }, 500);
+
+    const user = await db.prepare('SELECT id FROM pengguna WHERE email=?').bind(input).first();
+    if (!user) return json({ success: false, error: 'Email tidak terdaftar' }, 404);
+
+    const code = String(Math.floor(100000 + Math.random() * 900000));
+    const exp = Math.floor(Date.now() / 1000) + 300;
+    await db.prepare('DELETE FROM pemulihan_sandi WHERE email_tujuan=?').bind(input).run();
+    await db.prepare('INSERT INTO pemulihan_sandi (id, email_tujuan, kode_6digit, waktu_kadaluarsa, telah_dipakai) VALUES (?, ?, ?, ?, 0)').bind('R-'+Date.now().toString(36), input, code, exp).run();
+
+    const ok = await sendEmail(env, input, 'Reset Sandi JK AdiStore: ' + code, otpHtml('Reset Kata Sandi', 'Masukkan kode berikut untuk reset sandi:', code));
+    if (!ok) return json({ success: false, error: 'Gagal kirim email' }, 500);
+
+    return json({ success: true, message: 'Kode reset terkirim' });
+  } catch (e) { return json({ success: false, error: e.message }, 500); }
+}
+
+async function handleForgotVerify(request, env) {
+  try {
+    const { email, code, password, next } = await request.json();
+    const input = String(email || '').toLowerCase().trim();
+    const db = env.DB_MAIN || env.DB_AI || env.DB_FOTO;
+    if (!db) return json({ success: false, error: 'DB error' }, 500);
+    if (!password || password.length < 6) return json({ success: false, error: 'Password minimal 6 karakter' }, 400);
+
+    const row = await db.prepare('SELECT * FROM pemulihan_sandi WHERE email_tujuan=? AND telah_dipakai=0 ORDER BY waktu_kadaluarsa DESC LIMIT 1').bind(input).first();
+    if (!row) return json({ success: false, error: 'Kode tidak ditemukan' }, 404);
+    if (Math.floor(Date.now()/1000) > row.waktu_kadaluarsa) return json({ success: false, error: 'Kode kadaluarsa' }, 400);
+    if (String(row.kode_6digit) !== String(code).trim()) return json({ success: false, error: 'Kode salah' }, 401);
+
+    const hash = await sha256(password);
+    await db.prepare('UPDATE pengguna SET kata_sandi=? WHERE email=?').bind(hash, input).run();
+    await db.prepare('UPDATE pemulihan_sandi SET telah_dipakai=1 WHERE id=?').bind(row.id).run();
+
+    return json({ success: true, message: 'Sandi berhasil diganti', next: next || '/' });
+  } catch (e) { return json({ success: false, error: e.message }, 500); }
+}
+
+async function handleReport(request, env) {
+  try {
+    const { jenis, tipe, nama, wa, deskripsi, tiket } = await request.json();
+    if (!jenis || !tipe || !nama || !wa || !deskripsi) return json({ success: false, error: 'Field tidak lengkap' }, 400);
+    if (deskripsi.length < 20) return json({ success: false, error: 'Deskripsi min 20 karakter' }, 400);
+    const esc = s => String(s || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    const html = '<!DOCTYPE html><html><body style="font-family:system-ui;padding:20px"><h2 style="color:#7c3aed">Pengaduan Baru</h2><p><b>Tiket:</b> ' + esc(tiket) + '</p><p><b>Jenis:</b> ' + esc(jenis) + '</p><p><b>Tipe:</b> ' + esc(tipe) + '</p><p><b>Nama:</b> ' + esc(nama) + '</p><p><b>WA:</b> ' + esc(wa) + '</p><hr><p><b>Deskripsi:</b></p><p style="white-space:pre-wrap">' + esc(deskripsi) + '</p></body></html>';
+    const ok = await sendEmail(env, OWNER_EMAIL, '[PENGADUAN ' + (tiket || '') + '] ' + tipe + ' — ' + nama, html);
+    if (!ok) return json({ success: false, error: 'Gagal kirim email' }, 500);
+    return json({ success: true, tiket });
+  } catch (e) { return json({ success: false, error: e.message }, 500); }
+}
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const path = url.pathname;
+    const method = request.method;
+
+    // === AUTH ===
+    if (path === '/api/auth/login' && method === 'POST') {
+      try {
+        const { email, password } = await request.json();
+        return handleOtpSend(new Request(request.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        }), env);
+      } catch(e) { return json({ success: false, error: e.message }, 500); }
+    }
+    if (path === '/api/auth/register' && method === 'POST') return handleRegister(request, env);
+    if (path === '/api/auth/forgot' && method === 'POST') return handleForgot(request, env);
+    if (path === '/api/auth/forgot/verify' && method === 'POST') return handleForgotVerify(request, env);
+    if (path === '/api/auth/logout' && method === 'POST') return json({ success: true });
+
+    // === OTP ===
+    if (path === '/api/otp/send' && method === 'POST') return handleOtpSend(request, env);
+    if (path === '/api/otp/verify' && method === 'POST') return handleOtpVerify(request, env);
+
+    // === REPORT ===
+    if (path === '/api/report/send' && method === 'POST') return handleReport(request, env);
+
+    // === PROXY ke ORIGIN ===
+    if (path.startsWith('/api/') || path.startsWith('/keys/')) {
+      const target = ORIGIN + path + url.search;
+      const h = new Headers(request.headers);
+      h.set('Host', new URL(ORIGIN).hostname);
+      const init = {
+        method: method,
+        headers: h,
+        body: ['GET', 'HEAD'].includes(method) ? undefined : request.body,
+        redirect: 'manual'
+      };
+      return fetch(new Request(target, init));
+    }
+
+    return env.ASSETS.fetch(request);
+  }
+};
