@@ -1,4 +1,4 @@
-// JK ADISTORE — Worker Full Stack v4
+// JK ADISTORE — Worker Full
 const ORIGIN = 'https://25bd5ade.jkadistore.pages.dev';
 const OWNER_HASH = '40cab8d2722924df61b8b2dc8f149d680305071a8e98d820d5c598622e2bd506';
 const OWNER_EMAIL = 'jkadistore2@gmail.com';
@@ -19,87 +19,13 @@ async function sendEmail(env, to, subject, html) {
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + env.RESEND_API_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: 'JK AdiStore <noreply@jkadistore.shop>',
-      to: [to],
-      subject: subject,
-      html: html,
-      reply_to: 'jkadistore2@gmail.com',
-      headers: {
-        'List-Unsubscribe': '<mailto:unsubscribe@jkadistore.shop>',
-        'X-Entity-Ref-ID': Date.now().toString()
-      }
-    })
+    body: JSON.stringify({ from: 'JK AdiStore <noreply@jkadistore.shop>', to: [to], subject, html })
   });
   return r.ok;
 }
 
-function otpHtml(type, code, email) {
-  var titles = {
-    login: { t: 'Kode Verifikasi Login', s: 'Kami menerima permintaan login ke akun Anda. Masukkan kode di bawah untuk melanjutkan.' },
-    register: { t: 'Verifikasi Akun Baru', s: 'Selamat datang di JK AdiStore! Verifikasi email Anda untuk mengaktifkan akun.' },
-    reset: { t: 'Reset Kata Sandi', s: 'Kami menerima permintaan reset kata sandi. Masukkan kode di bawah untuk melanjutkan.' }
-  };
-  var d = titles[type] || titles.login;
-  var now = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) + ' WIB';
-  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-  + '<meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light only">'
-  + '<style>body,table,td,p,h1,h2,h3,a{color-scheme:light only !important}*{forced-color-adjust:none}</style>'
-  + '</head>'
-  + '<body style="margin:0;padding:0;background:#f0f2f5 !important;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial,sans-serif">'
-  + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f0f2f5 !important;padding:32px 14px"><tr><td align="center">'
-  + '<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff !important;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08)">'
-  + '<tr><td style="background:linear-gradient(135deg,#5b21b6 0%,#7c3aed 50%,#9333ea 100%);padding:28px 24px;text-align:center">'
-  + '<h1 style="margin:0;color:#ffffff !important;font-size:22px;font-weight:900;letter-spacing:1.5px">JK ADISTORE</h1>'
-  + '<p style="margin:8px 0 0;color:#c4b5fd !important;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700">Raja Digital Store Indonesia</p>'
-  + '</td></tr>'
-  + '<tr><td style="padding:32px 32px 24px;text-align:center;background:#ffffff !important">'
-  + '<img src="https://jkadistore.shop/assets/img/logo.png" alt="JK AdiStore" width="80" height="80" style="display:block;margin:0 auto 18px;border-radius:20px;border:0;outline:none;text-decoration:none">'
-  + '<h2 style="margin:0 0 10px;color:#1f2937 !important;font-size:20px;font-weight:800">' + d.t + '</h2>'
-  + '<p style="margin:0 0 28px;color:#6b7280 !important;font-size:14px;line-height:1.6">' + d.s + '</p>'
-  + '<div style="background:#faf5ff;border:2px solid #a855f7;border-radius:14px;padding:20px;margin-bottom:12px;user-select:all;-webkit-user-select:all">'
-  + '<p style="margin:0 0 6px;color:#7c3aed !important;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase">Kode Anda</p>'
-  + '<p style="margin:0;font-size:40px;font-weight:900;letter-spacing:10px;color:#1f2937 !important;font-family:Courier,monospace;line-height:1.2;user-select:all;-webkit-user-select:all">' + code + '</p>'
-  + '</div>'
-  + '<p style="margin:0 0 16px;color:#9ca3af !important;font-size:11px;font-style:italic">Tahan lama kotak di atas untuk menyalin kode</p>'
-  + '<p style="margin:0;color:#9ca3af !important;font-size:12px">Kode berlaku selama <b style="color:#7c3aed !important">5 menit</b></p>'
-  + '</td></tr>'
-  + '<tr><td style="padding:0 32px 24px;background:#ffffff !important">'
-  + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb !important;border-radius:10px;border:1px solid #e5e7eb">'
-  + '<tr><td style="padding:12px 16px 6px;font-size:12px;color:#6b7280 !important">Email</td><td style="padding:12px 16px 6px;font-size:12px;color:#111827 !important;text-align:right;font-weight:600">' + email + '</td></tr>'
-  + '<tr><td style="padding:6px 16px;font-size:12px;color:#6b7280 !important">Waktu</td><td style="padding:6px 16px;font-size:12px;color:#111827 !important;text-align:right;font-weight:600">' + now + '</td></tr>'
-  + '<tr><td style="padding:6px 16px 12px;font-size:12px;color:#6b7280 !important">Website</td><td style="padding:6px 16px 12px;font-size:12px;color:#111827 !important;text-align:right;font-weight:600">jkadistore.shop</td></tr>'
-  + '</table>'
-  + '</td></tr>'
-  + '<tr><td style="padding:0 32px 24px;background:#ffffff !important">'
-  + '<div style="background:#fef3c7 !important;border-left:4px solid #f59e0b;border-radius:6px;padding:14px 16px">'
-  + '<p style="margin:0 0 8px;color:#92400e !important;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px">Tips Keamanan</p>'
-  + '<ul style="margin:0;padding-left:20px;color:#78350f !important;font-size:12px;line-height:1.7">'
-  + '<li>Jangan bagikan kode ini ke siapa pun</li>'
-  + '<li>JK AdiStore tidak pernah meminta kode via telepon atau chat</li>'
-  + '<li>Jika bukan Anda yang meminta, abaikan email ini</li>'
-  + '</ul></div>'
-  + '</td></tr>'
-  + '<tr><td style="padding:0 32px 32px;text-align:center;background:#ffffff !important">'
-  + '<p style="margin:0 0 12px;color:#6b7280 !important;font-size:13px">Butuh bantuan? Hubungi Customer Service kami:</p>'
-  + '<a href="https://wa.me/628991232005" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#ffffff !important;text-decoration:none;border-radius:10px;font-weight:800;font-size:13px">Chat via WhatsApp</a>'
-  + '</td></tr>'
-  + '<tr><td style="padding:24px 32px;background:#f9fafb !important;border-top:1px solid #e5e7eb">'
-  + '<p style="margin:0 0 18px;text-align:center;color:#111827 !important;font-size:13px;font-weight:800;letter-spacing:1px">IKUTI KAMI</p>'
-  + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">'
-  + '<a href="https://wa.me/628991232005" style="display:inline-block;margin:5px;padding:10px 16px;background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;text-decoration:none;color:#111827 !important;font-size:12px;font-weight:700;vertical-align:middle"><img src="https://www.google.com/s2/favicons?sz=64&domain=whatsapp.com" width="18" height="18" style="vertical-align:middle;margin-right:6px;border:0" alt="WA">WhatsApp</a>'
-  + '<a href="https://t.me/jkadistore" style="display:inline-block;margin:5px;padding:10px 16px;background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;text-decoration:none;color:#111827 !important;font-size:12px;font-weight:700;vertical-align:middle"><img src="https://www.google.com/s2/favicons?sz=64&domain=telegram.org" width="18" height="18" style="vertical-align:middle;margin-right:6px;border:0" alt="TG">Telegram</a>'
-  + '<a href="https://whatsapp.com/channel/0029VbDc20N84Om3Wn4Io10L" style="display:inline-block;margin:5px;padding:10px 16px;background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;text-decoration:none;color:#111827 !important;font-size:12px;font-weight:700;vertical-align:middle"><img src="https://www.google.com/s2/favicons?sz=64&domain=whatsapp.com" width="18" height="18" style="vertical-align:middle;margin-right:6px;border:0" alt="CH">Channel</a>'
-  + '<a href="https://youtube.com/@adistoreOffc" style="display:inline-block;margin:5px;padding:10px 16px;background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;text-decoration:none;color:#111827 !important;font-size:12px;font-weight:700;vertical-align:middle"><img src="https://www.google.com/s2/favicons?sz=64&domain=youtube.com" width="18" height="18" style="vertical-align:middle;margin-right:6px;border:0" alt="YT">YouTube</a>'
-  + '<a href="https://tiktok.com/@jk.adistore" style="display:inline-block;margin:5px;padding:10px 16px;background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;text-decoration:none;color:#111827 !important;font-size:12px;font-weight:700;vertical-align:middle"><img src="https://www.google.com/s2/favicons?sz=64&domain=tiktok.com" width="18" height="18" style="vertical-align:middle;margin-right:6px;border:0" alt="TT">TikTok</a>'
-  + '</td></tr></table>'
-  + '<div style="height:1px;background:#e5e7eb;margin:22px 0"></div>'
-  + '<p style="margin:0 0 6px;text-align:center;color:#111827 !important;font-size:13px;font-weight:800;letter-spacing:1px">&#9889; JK ADI STORE &#9889;</p>'
-  + '<p style="margin:0 0 14px;text-align:center;color:#6b7280 !important;font-size:11px">Pembuat &amp; Pemilik Resmi: <b style="color:#7c3aed !important">@adistoreOffc</b></p>'
-  + '<p style="margin:0 0 6px;text-align:center;color:#9ca3af !important;font-size:10.5px;line-height:1.5">Email ini dikirim otomatis oleh sistem keamanan JK AdiStore.<br>Jika bukan Anda yang meminta, abaikan email ini.</p>'
-  + '<p style="margin:0;text-align:center;color:#9ca3af !important;font-size:10.5px">&copy; 2026 <a href="https://jkadistore.shop" style="color:#7c3aed !important;text-decoration:none;font-weight:700">jkadistore.shop</a> &mdash; Raja Digital Store Indonesia</p>'
-  + '</td></tr>'
-  + '</table></td></tr></table></body></html>';
+function otpHtml(title, sub, code) {
+  return '<!DOCTYPE html><html><body style="font-family:system-ui,Arial;background:#f5f5f7;padding:20px;margin:0"><div style="max-width:520px;margin:auto;background:#fff;border-radius:16px;overflow:hidden"><div style="background:linear-gradient(135deg,#7c3aed,#a855f7,#ec4899);padding:24px;color:#fff;text-align:center"><h1 style="margin:0;font-size:20px">' + title + '</h1><p style="margin:6px 0 0;opacity:.9;font-size:12px">JK AdiStore</p></div><div style="padding:28px;text-align:center"><p style="color:#666">' + sub + '</p><div style="font-size:38px;font-weight:900;letter-spacing:10px;color:#7c3aed;background:#f8f5ff;padding:18px;border-radius:12px;border:2px dashed #7c3aed">' + code + '</div><p style="color:#999;font-size:12px;margin-top:14px">Berlaku 5 menit</p></div></div></body></html>';
 }
 
 async function handleOtpSend(request, env) {
@@ -112,6 +38,7 @@ async function handleOtpSend(request, env) {
     const hex = await sha256(password);
 
     if (input === OWNER_EMAIL) {
+      // [TEMP] Plaintext — paksa works
       if (password !== 'JkOwner2026Xyz') return json({ success: false, error: 'Password salah' }, 401);
     } else {
       const row = await db.prepare('SELECT * FROM pengguna WHERE email = ?').bind(input).first();
@@ -124,7 +51,7 @@ async function handleOtpSend(request, env) {
     const exp = Math.floor(Date.now() / 1000) + 300;
     await db.prepare('INSERT INTO otp_codes (email, code, expires, attempts, created_at) VALUES (?, ?, ?, 0, ?) ON CONFLICT(email) DO UPDATE SET code=?, expires=?, attempts=0').bind(input, code, exp, Math.floor(Date.now()/1000), code, exp).run();
 
-    const ok = await sendEmail(env, input, 'Kode Login JK AdiStore: ' + code, otpHtml('login', code, input));
+    const ok = await sendEmail(env, input, 'Kode Login JK AdiStore: ' + code, otpHtml('Kode Verifikasi Login', 'Masukkan kode berikut:', code));
     if (!ok) return json({ success: false, error: 'Gagal kirim OTP' }, 500);
 
     return json({ success: true, message: 'Kode terkirim', otp_required: true, email: input });
@@ -157,7 +84,7 @@ async function handleOtpVerify(request, env) {
       const u = await db.prepare('SELECT * FROM pengguna WHERE email=?').bind(input).first();
       if (u) userData = { id: u.id, email: u.email, name: u.nama, role: u.peran || 'user', coins: u.saldo_koin || 0 };
     }
-    try { await db.prepare('INSERT INTO log_login (id, pengguna, email, metode, waktu) VALUES (?, ?, ?, ?, ?)').bind('L-'+Date.now().toString(36), userData.id || '', input, 'otp', new Date().toISOString()).run(); } catch(e){}
+    try { await db.prepare('INSERT INTO log_login (id, id_pengguna, email, metode, waktu) VALUES (?, ?, ?, ?, ?)').bind('L-'+Date.now().toString(36), userData.id || '', input, 'otp', new Date().toISOString()).run(); } catch(e){}
 
     const token = (userData.role === 'owner' ? 'JK2FA_' : 'JKUSR_') + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 12);
     return json({ success: true, token, user: userData, message: 'Verifikasi berhasil' });
@@ -191,7 +118,7 @@ async function handleRegister(request, env) {
     const exp = Math.floor(Date.now() / 1000) + 300;
     await db.prepare('INSERT INTO otp_codes (email, code, expires, attempts, created_at) VALUES (?, ?, ?, 0, ?) ON CONFLICT(email) DO UPDATE SET code=?, expires=?, attempts=0').bind(input, code, exp, Math.floor(Date.now()/1000), code, exp).run();
 
-    const ok = await sendEmail(env, input, 'Verifikasi Akun JK AdiStore: ' + code, otpHtml('register', code, input));
+    const ok = await sendEmail(env, input, 'Verifikasi Akun JK AdiStore: ' + code, otpHtml('Verifikasi Akun Baru', 'Hai <b>' + name + '</b>, masukkan kode untuk aktivasi akun:', code));
     if (!ok) return json({ success: false, error: 'Gagal kirim email' }, 500);
 
     return json({ success: true, otp_required: true, email: input, action: 'register', next: next || '/' });
@@ -213,7 +140,7 @@ async function handleForgot(request, env) {
     await db.prepare('DELETE FROM pemulihan_sandi WHERE email_tujuan=?').bind(input).run();
     await db.prepare('INSERT INTO pemulihan_sandi (id, email_tujuan, kode_6digit, waktu_kadaluarsa, telah_dipakai) VALUES (?, ?, ?, ?, 0)').bind('R-'+Date.now().toString(36), input, code, exp).run();
 
-    const ok = await sendEmail(env, input, 'Reset Sandi JK AdiStore: ' + code, otpHtml('reset', code, input));
+    const ok = await sendEmail(env, input, 'Reset Sandi JK AdiStore: ' + code, otpHtml('Reset Kata Sandi', 'Masukkan kode berikut untuk reset sandi:', code));
     if (!ok) return json({ success: false, error: 'Gagal kirim email' }, 500);
 
     return json({ success: true, message: 'Kode reset terkirim' });

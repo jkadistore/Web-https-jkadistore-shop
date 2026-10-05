@@ -978,52 +978,5 @@ catch(e){res.innerHTML='⚠️ Gagal memverifikasi ('+(e&&e.message?e.message:'p
 <script src="assets/user-profile.js?v=20261005-0730"></script><script src="assets/session-bridge.js?v=20261005-0730"></script><script src="assets/admin-clean.js?v=20261005-0730"></script><script src="assets/topup.js?v=20261005-0730"></script>
    <script src="assets/lg-forms.js?v=20261005-0730"></script>
    <script src="assets/games.js?v=20261005-0730"></script><script src="assets/polish.js?v=20261005-0730"></script><script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a39068a71ad4fef5',t:'MTc4OTA2NDAyOQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script src="/assets/cs-widget.js?v=20261005-0730"></script>
-<script src="assets/otp-login.js?v=20261005-0730">
-/* JK_DRAWER_V2 — Override toggleNav */
-(function(){
-  window.toggleNav = function() {
-    var drawer = document.getElementById('navLinks');
-    var overlay = document.getElementById('jkDrawerOverlay');
-    if (!drawer) return;
-    var isOpen = drawer.classList.contains('open');
-    if (isOpen) {
-      drawer.classList.remove('open');
-      if (overlay) overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    } else {
-      drawer.classList.add('open');
-      if (overlay) overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      try {
-        var dv = JSON.parse(localStorage.getItem('jka_dv') || 'null');
-        var sess = dv && dv.session;
-        var email = sess && sess.user && sess.user.email;
-        var role = sess && sess.role;
-        var loginBtn = document.getElementById('drawerLoginBtn');
-        var userBtn = document.getElementById('drawerUserBtn');
-        var adminBtn = document.getElementById('drawerAdminBtn');
-        var userName = document.getElementById('drawerUserName');
-        if (email) {
-          if (loginBtn) loginBtn.style.display = 'none';
-          if (userBtn) userBtn.style.display = 'flex';
-          if (userName) userName.textContent = (sess.user && sess.user.name) || email.split('@')[0];
-          if (adminBtn) adminBtn.style.display = (role === 'owner') ? 'flex' : 'none';
-        } else {
-          if (loginBtn) loginBtn.style.display = 'flex';
-          if (userBtn) userBtn.style.display = 'none';
-          if (adminBtn) adminBtn.style.display = 'none';
-        }
-      } catch(e) {}
-    }
-  };
-  // ESC handler
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape') {
-      var d = document.getElementById('navLinks');
-      if (d && d.classList.contains('open')) window.toggleNav();
-    }
-  });
-  console.log('[JK] Drawer v2 loaded');
-})();
-</script>
+<script src="assets/otp-login.js?v=20261005-0730"></script>
 </body></html>

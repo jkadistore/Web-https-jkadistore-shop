@@ -90,7 +90,13 @@
      2) openAuth() — dulu membuka authModal di dalam situs.
      Sekarang: pengguna BELUM login → gerbang /login.
      ================================================================ */
-  /* [FIX] openAuth override dihapus */
+  try {
+    if (typeof openAuth === 'function') {
+      window.openAuth = function () {
+        location.href = '/login?next=' + encodeURIComponent(location.pathname + location.search || '/');
+      };
+    }
+  } catch (e) {}
 
   /* ================================================================
      3) openProfile() — klik nama (kanan atas) → halaman profil sendiri

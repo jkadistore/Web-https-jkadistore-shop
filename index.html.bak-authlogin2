@@ -1,8 +1,8 @@
 <!doctype html><html lang="id"><head>
-<script src="assets/version.js?v=20261005-0730"></script><meta charset="utf-8"><script>if(location.hostname==='jkadistore.pages.dev'||location.hostname.indexOf('.jkadistore.pages.dev')!==-1){location.replace('https://jkadistore.shop'+location.pathname+location.search+location.hash);}</script><script src="assets/gate.js?v=20261005-0730"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="dns-prefetch" href="https://wa.me"><link rel="preload" href="assets/style.css?v=20261005-0730" as="style"><link rel="preload" href="assets/app.js?v=20261005-0730" as="script"><link rel="preload" href="assets/img/logo.png" as="image" fetchpriority="high"><meta http-equiv="X-Frame-Options" content="DENY"><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="same-origin"><meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data:; img-src 'self' https: data:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; style-src 'self' https: 'unsafe-inline'; connect-src 'self' https: wss:; font-src 'self' https: data:; object-src 'none'; base-uri 'self'; form-action 'self' https:; frame-ancestors 'none';"><meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate"><meta name="theme-color" content="#04061a">
+<script src="assets/version.js?v=20261004-2345"></script><meta charset="utf-8"><script>if(location.hostname==='jkadistore.pages.dev'||location.hostname.indexOf('.jkadistore.pages.dev')!==-1){location.replace('https://jkadistore.shop'+location.pathname+location.search+location.hash);}</script><script src="assets/gate.js?v=20261004-2345"></script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><link rel="dns-prefetch" href="https://wa.me"><link rel="preload" href="assets/style.css?v=20261004-2345" as="style"><link rel="preload" href="assets/app.js?v=20260924" as="script"><link rel="preload" href="assets/img/logo.png" as="image" fetchpriority="high"><meta http-equiv="X-Frame-Options" content="DENY"><meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="same-origin"><meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data:; img-src 'self' https: data:; script-src 'self' https: 'unsafe-inline' 'unsafe-eval'; style-src 'self' https: 'unsafe-inline'; connect-src 'self' https: wss:; font-src 'self' https: data:; object-src 'none'; base-uri 'self'; form-action 'self' https:; frame-ancestors 'none';"><meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate"><meta name="theme-color" content="#04061a">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/icon-192.png?v=logo2026">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png?v=logo2026">
-<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png?v=logo2026"><meta name="description" content="JK ADISTORE — Raja Digital Store Indonesia. Top Up Game, Voucher, Aplikasi Premium, Akun, AI Tools, VPS, Hosting, Domain, Jasa Digital. Cepat, aman, profesional."><title>JK ADISTORE — Raja Digital Store</title><link rel="stylesheet" href="assets/style.css?v=20261005-0730"><link rel="stylesheet" href="assets/topup.css?v=20261005-0730">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png?v=logo2026"><meta name="description" content="JK ADISTORE — Raja Digital Store Indonesia. Top Up Game, Voucher, Aplikasi Premium, Akun, AI Tools, VPS, Hosting, Domain, Jasa Digital. Cepat, aman, profesional."><title>JK ADISTORE — Raja Digital Store</title><link rel="stylesheet" href="assets/style.css?v=20261004-2345"><link rel="stylesheet" href="assets/topup.css?v=20261004-2345">
 <script>
 /* JK LOCAL DATA v2 — 12 akun MLBB baru + 798 produk lama (D1 #161),
    tampil tanpa login untuk pengunjung. Panel Owner /admin tetap bisa edit. */
@@ -79,105 +79,8 @@ window.JK_LOCAL_DATA = {"products":[{"id":"ML-AK-0001","name":"Akun MLBB Starter
 .jkml-btn-buy:disabled{background:rgba(255,255,255,.08);color:#8a93b8;border:1px solid rgba(255,255,255,.14);box-shadow:none;cursor:not-allowed}
 @media(max-width:560px){.jkml-actions{grid-template-columns:1fr}.jkml-price-now{font-size:19px}.jkml-title{font-size:14px}}
 
-
-/* ===== JK DRAWER MENU v1 ===== */
-.hamburger-btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 42px; height: 42px; border-radius: 12px;
-  background: rgba(139,92,246,.12); border: 1.5px solid rgba(139,92,246,.3);
-  color: #a78bfa; cursor: pointer; transition: all .2s;
-}
-.hamburger-btn:hover { background: rgba(139,92,246,.22); color: #fff; }
-.hamburger-btn:active { transform: scale(.95); }
-.nav-links { display: none; }
-.jkDrawerOverlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,.55);
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-  z-index: 9998; opacity: 0; visibility: hidden;
-  transition: opacity .3s, visibility .3s;
-}
-.jkDrawerOverlay.open { opacity: 1; visibility: visible; }
-.jkDrawer {
-  position: fixed; top: 0; right: 0; bottom: 0;
-  width: 320px; max-width: 88vw;
-  background: linear-gradient(180deg, #2D1B69 0%, #1a0f38 100%);
-  border-left: 1px solid rgba(139,92,246,.25);
-  box-shadow: -10px 0 40px rgba(0,0,0,.6);
-  z-index: 9999; transform: translateX(100%);
-  transition: transform .35s cubic-bezier(.4,0,.2,1);
-  display: flex; flex-direction: column; overflow-y: auto;
-}
-.jkDrawer.open { transform: translateX(0); }
-.jkDrawerHead {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 20px 16px;
-}
-.jkDrawerBrand { display: flex; align-items: center; gap: 12px; }
-.jkDrawerBrand img {
-  width: 42px; height: 42px; border-radius: 12px;
-  background: rgba(255,255,255,.08); padding: 4px;
-}
-.jkDrawerBrand b {
-  display: block; font-size: 15px; font-weight: 900;
-  color: #fff; letter-spacing: .3px;
-}
-.jkDrawerBrand small {
-  display: block; font-size: 10.5px; color: #a78bfa;
-  letter-spacing: .5px; margin-top: 1px;
-}
-.jkDrawerClose {
-  width: 38px; height: 38px; border-radius: 10px;
-  background: rgba(255,255,255,.06); border: 1px solid rgba(139,92,246,.25);
-  color: #cbd5e1; display: inline-flex; align-items: center;
-  justify-content: center; cursor: pointer; transition: all .2s;
-}
-.jkDrawerClose:hover { background: rgba(244,63,94,.15); color: #f43f5e; }
-.jkDrawerClose:active { transform: scale(.95); }
-.jkDrawerDivider {
-  height: 1px; margin: 8px 20px;
-  background-image: linear-gradient(to right, rgba(139,92,246,.4) 50%, transparent 50%);
-  background-size: 10px 1px; background-repeat: repeat-x;
-}
-.jkDrawerMenu {
-  display: flex; flex-direction: column; padding: 4px 12px; gap: 2px;
-}
-.jkDrawerMenu a {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; padding: 14px 16px; border-radius: 10px;
-  color: #e2e8f0; text-decoration: none; font-size: 15px; font-weight: 600;
-  transition: all .18s; border-left: 3px solid transparent;
-}
-.jkDrawerMenu a:hover {
-  background: rgba(139,92,246,.14); border-left-color: #8b5cf6; color: #fff;
-}
-.jkDrawerMenu a:active { transform: scale(.98); }
-.jkDrawerMenu a svg {
-  width: 18px; height: 18px; color: #a78bfa;
-  flex-shrink: 0; transition: transform .2s;
-}
-.jkDrawerMenu a:hover svg { transform: translateX(2px); color: #c4b5fd; }
-.jkDrawerMenu a.jkDrawerCta {
-  background: linear-gradient(135deg, #7c3aed, #a855f7 60%, #ec4899);
-  color: #fff; font-weight: 800; border-left-color: transparent;
-  margin: 4px 0; box-shadow: 0 4px 16px rgba(124,58,237,.35);
-}
-.jkDrawerMenu a.jkDrawerCta:hover {
-  background: linear-gradient(135deg, #8b5cf6, #c084fc 60%, #f472b6);
-  transform: translateY(-1px);
-}
-.jkDrawerMenu a.jkDrawerCta svg { color: #fff; }
-.jkDrawerFooter {
-  margin-top: auto; padding: 20px; text-align: center;
-  border-top: 1px solid rgba(139,92,246,.15);
-}
-.jkDrawerFooter p { margin: 0 0 4px; font-size: 11px; color: #64748b; }
-.jkDrawerFooter a { color: #a78bfa; text-decoration: none; font-weight: 600; font-size: 11.5px; }
-@media (max-width: 480px) {
-  .jkDrawer { width: 290px; }
-  .jkDrawerMenu a { padding: 13px 14px; font-size: 14.5px; }
-}
 </style>
-<link rel="stylesheet" href="assets/polish.css?v=20261005-0730"></head><body><canvas id="starfield"></canvas>
+<link rel="stylesheet" href="assets/polish.css?v=20261004-2345"></head><body><canvas id="starfield"></canvas>
 <script>/* LOGO RESMI JK ADISTORE — dipasang di semua tempat (Rev 5) */
 (function(){
   var LOGO_URL='images/logo-owner.webp';
@@ -208,62 +111,16 @@ window.JK_LOCAL_DATA = {"products":[{"id":"ML-AK-0001","name":"Akun MLBB Starter
    <img id="logoImg" src="" alt="logo">
    <b class="brand-name">JK ADISTORE</b>
   </a>
-  <button class="hamburger-btn" onclick="toggleNav()" aria-label="Menu">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-</button>
-  <div class="jkDrawerOverlay" id="jkDrawerOverlay" onclick="toggleNav()"></div>
-<div class="jkDrawer" id="navLinks">
-  <div class="jkDrawerHead">
-    <div class="jkDrawerBrand">
-      <img src="/assets/img/logo.png" alt="JK">
-      <div>
-        <b>JK ADISTORE</b>
-        <small>Raja Digital Store</small>
-      </div>
-    </div>
-    <button class="jkDrawerClose" onclick="toggleNav()" aria-label="Tutup">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
+  <button class="hamburger btn" onclick="toggleNav()">☰</button>
+  <div class="nav-links" id="navLinks">
+   <button class="btn btn-sm" onclick="smoothTo('shop')">🛍️ Produk</button>
+   <button class="btn btn-sm" onclick="smoothTo('ai')">🤖 AI</button>
+   <button class="btn btn-sm" onclick="smoothTo('ulasan')"><img class="ico" src="/assets/img/svg/star.svg" alt=""> Ulasan</button>
+   <button class="btn btn-sm" onclick="smoothTo('social')"><img class="ico" src="/assets/img/svg/device-mobile.svg" alt=""> Kontak</button>
+   <button class="btn btn-sm" id="userBtn" onclick="openAuth()">🔐 Masuk</button>
+   <button class="btn btn-sm btn-primary" id="adminBtn" style="display:none" onclick="adminOpen()"><img class="ico" src="/assets/img/svg/gear.svg" alt=""> Panel</button>
   </div>
-  <div class="jkDrawerDivider"></div>
-  <nav class="jkDrawerMenu">
-    <a href="#produk" onclick="event.preventDefault();smoothTo('shop');toggleNav();">
-      <span>Produk</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-    </a>
-    <a href="#ai" onclick="event.preventDefault();smoothTo('ai');toggleNav();">
-      <span>AI / Asisten</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6z"/></svg>
-    </a>
-    <a href="#ulasan" onclick="event.preventDefault();smoothTo('ulasan');toggleNav();">
-      <span>Ulasan</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    </a>
-    <a href="#kontak" onclick="event.preventDefault();smoothTo('kontak');toggleNav();">
-      <span>Kontak</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-    </a>
-  </nav>
-  <div class="jkDrawerDivider"></div>
-  <nav class="jkDrawerMenu">
-    <a href="#" id="drawerLoginBtn" onclick="event.preventDefault();toggleNav();if(typeof openAuth==='function')openAuth('login');" class="jkDrawerCta">
-      <span>Masuk / Daftar</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
-    </a>
-    <a href="#" id="drawerUserBtn" onclick="event.preventDefault();toggleNav();if(typeof window.showUserMenu==='function')window.showUserMenu();" style="display:none">
-      <span id="drawerUserName">Profil Saya</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    </a>
-    <a href="#" id="drawerAdminBtn" onclick="event.preventDefault();toggleNav();if(typeof adminPanel==='function')adminPanel();" style="display:none">
-      <span>Panel Owner</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-    </a>
-  </nav>
-  <div class="jkDrawerFooter">
-    <p>&copy; 2026 JK AdiStore</p>
-    <p><a href="/report-request-form.html">Laporkan Masalah</a></p>
-  </div>
-</div>
+ </div>
 </div>
 <main id="home">
   <div class="wrap hero">
@@ -691,8 +548,8 @@ else{res.innerHTML='⚠️ <b style="color:var(--err)">Tanda tangan TIDAK cocok 
 catch(e){res.innerHTML='⚠️ Gagal memverifikasi ('+(e&&e.message?e.message:'peramban tidak mendukung')+')';}}
 (function(){fetch('keys/owner_cert.json').then(function(r){return r.json()}).then(function(c){var el=document.getElementById('jkCertFp');if(el&&c&&c.fingerprint)el.textContent='Fingerprint kunci publik (SHA-256): '+c.fingerprint}).catch(function(){})})();
 </script>
-<script src="assets/app.js?v=20261005-0730"></script>
-<script src="assets/auth-bridge.js?v=20261005-0730"></script>
+<script src="assets/app.js?v=20261004-2345"></script>
+<script src="assets/auth-bridge.js?v=20261004-2345"></script>
 <script id="jkml-js">
 /* JK MLBB PREMIUM CARDS v2 — slider geser 5 foto + lightbox perbesar
    Desain profesional: Profil Akun / Daftar Hero / Galeri Skin / Rank & Winrate / Emblem + Login
@@ -973,57 +830,9 @@ catch(e){res.innerHTML='⚠️ Gagal memverifikasi ('+(e&&e.message?e.message:'p
   else{setTimeout(boot,400);}
 })();
 </script>
-<script src="assets/store-sync.js?v=20261005-0730"></script><script src="assets/img-compress.js?v=20261005-0730"></script><script src="assets/shield.js?v=20261005-0730"></script><script src="assets/upgrade.js?v=20261005-0730"></script><script src="assets/owner-panel.js?v=20261005-0730"></script>
-<script src="assets/owner-additions.js?v=20261005-0730"></script><script src="assets/owner-control.js?v=20261005-0730"></script>
-<script src="assets/user-profile.js?v=20261005-0730"></script><script src="assets/session-bridge.js?v=20261005-0730"></script><script src="assets/admin-clean.js?v=20261005-0730"></script><script src="assets/topup.js?v=20261005-0730"></script>
-   <script src="assets/lg-forms.js?v=20261005-0730"></script>
-   <script src="assets/games.js?v=20261005-0730"></script><script src="assets/polish.js?v=20261005-0730"></script><script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a39068a71ad4fef5',t:'MTc4OTA2NDAyOQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script src="/assets/cs-widget.js?v=20261005-0730"></script>
-<script src="assets/otp-login.js?v=20261005-0730">
-/* JK_DRAWER_V2 — Override toggleNav */
-(function(){
-  window.toggleNav = function() {
-    var drawer = document.getElementById('navLinks');
-    var overlay = document.getElementById('jkDrawerOverlay');
-    if (!drawer) return;
-    var isOpen = drawer.classList.contains('open');
-    if (isOpen) {
-      drawer.classList.remove('open');
-      if (overlay) overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    } else {
-      drawer.classList.add('open');
-      if (overlay) overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      try {
-        var dv = JSON.parse(localStorage.getItem('jka_dv') || 'null');
-        var sess = dv && dv.session;
-        var email = sess && sess.user && sess.user.email;
-        var role = sess && sess.role;
-        var loginBtn = document.getElementById('drawerLoginBtn');
-        var userBtn = document.getElementById('drawerUserBtn');
-        var adminBtn = document.getElementById('drawerAdminBtn');
-        var userName = document.getElementById('drawerUserName');
-        if (email) {
-          if (loginBtn) loginBtn.style.display = 'none';
-          if (userBtn) userBtn.style.display = 'flex';
-          if (userName) userName.textContent = (sess.user && sess.user.name) || email.split('@')[0];
-          if (adminBtn) adminBtn.style.display = (role === 'owner') ? 'flex' : 'none';
-        } else {
-          if (loginBtn) loginBtn.style.display = 'flex';
-          if (userBtn) userBtn.style.display = 'none';
-          if (adminBtn) adminBtn.style.display = 'none';
-        }
-      } catch(e) {}
-    }
-  };
-  // ESC handler
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape') {
-      var d = document.getElementById('navLinks');
-      if (d && d.classList.contains('open')) window.toggleNav();
-    }
-  });
-  console.log('[JK] Drawer v2 loaded');
-})();
-</script>
+<script src="assets/store-sync.js?v=20261004-2345"></script><script src="assets/img-compress.js?v=20261004-2345"></script><script src="assets/shield.js?v=20261004-2345"></script><script src="assets/upgrade.js?v=20261004-2345"></script><script src="assets/owner-panel.js?v=20261004-2345"></script>
+<script src="assets/owner-additions.js?v=20261004-2345"></script><script src="assets/owner-control.js?v=20261004-2345"></script>
+<script src="assets/user-profile.js?v=20261004-2345"></script><script src="assets/session-bridge.js?v=20261004-2345"></script><script src="assets/admin-clean.js?v=20261004-2345"></script><script src="assets/topup.js?v=20261004-2345"></script>
+   <script src="assets/lg-forms.js?v=20261004-2345"></script>
+   <script src="assets/games.js?v=20261004-2345"></script><script src="assets/polish.js?v=20261004-2345"></script><script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a39068a71ad4fef5',t:'MTc4OTA2NDAyOQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script src="/assets/cs-widget.js?v=20261004-2345"></script>
 </body></html>
